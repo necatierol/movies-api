@@ -6,10 +6,11 @@ RSpec.describe "Seasons API", type: :request do
   let!(:seasons) { create_list(:season, 20, content_id: content.id) }
   let(:content_id) { content.id }
   let(:id) { seasons.first.id }
+  let(:url) { "/contents/#{content_id}/seasons" }
 
   #Test suite for GET /contents/:content_id/seasons
   describe "GET /contents/:content_id/seasons" do
-    before { get "/contents/#{content_id}/seasons" }
+    before { get url }
 
     context 'when content exists' do
       it 'returns status code 200' do
@@ -36,7 +37,7 @@ RSpec.describe "Seasons API", type: :request do
 
   # Test suite for GET /contents/:content_id/seasons/:id
   describe 'GET /contents/:content_id/seasons/:id' do
-    before { get "/contents/#{content_id}/seasons/#{id}" }
+    before { get "#{url}/#{id}" }
 
     context 'when content season exists' do
       it 'returns status code 200' do
@@ -66,7 +67,7 @@ RSpec.describe "Seasons API", type: :request do
     let(:valid_attributes) { { title: 'Season 1' } }
 
     context 'when the request is valid' do
-      before { post "/contents/#{content_id}/seasons", params: valid_attributes }
+      before { post url, params: valid_attributes }
 
       it 'returns status code 201' do
         expect(response).to have_http_status(201)
@@ -74,7 +75,7 @@ RSpec.describe "Seasons API", type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post "/contents/#{content_id}/seasons", params: {} }
+      before { post url, params: {} }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -90,7 +91,7 @@ RSpec.describe "Seasons API", type: :request do
   describe 'PUT /contents/:content_id/seasons/:id' do
     let(:valid_attributes) { { title: 'Season 2' } }
 
-    before { put "/contents/#{content_id}/seasons/#{id}", params: valid_attributes }
+    before { put "#{url}/#{id}", params: valid_attributes }
 
     context 'when season exists' do
       it 'returns status code 204' do
@@ -118,7 +119,7 @@ RSpec.describe "Seasons API", type: :request do
 
   # Test suite for DELETE /contents/:content_id/seasons/:id
   describe 'DELETE /contents/:content_id/seasons/:id' do
-    before { delete "/contents/#{content_id}/seasons/#{id}" }
+    before { delete "#{url}/#{id}" }
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)
