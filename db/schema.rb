@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_14_082753) do
+ActiveRecord::Schema.define(version: 2021_04_15_150833) do
 
   create_table "contents", force: :cascade do |t|
     t.string "item_type"
@@ -29,6 +29,21 @@ ActiveRecord::Schema.define(version: 2021_04_14_082753) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "episodes", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.datetime "date"
+    t.integer "length"
+    t.string "url"
+    t.string "source"
+    t.string "source_url"
+    t.boolean "is_active"
+    t.integer "season_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["season_id"], name: "index_episodes_on_season_id"
+  end
+
   create_table "genres", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", precision: 6, null: false
@@ -45,5 +60,6 @@ ActiveRecord::Schema.define(version: 2021_04_14_082753) do
     t.index ["content_id"], name: "index_seasons_on_content_id"
   end
 
+  add_foreign_key "episodes", "seasons"
   add_foreign_key "seasons", "contents"
 end
