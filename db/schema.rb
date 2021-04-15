@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_04_15_150833) do
+ActiveRecord::Schema.define(version: 2021_04_15_151658) do
+
+  create_table "content_genres", force: :cascade do |t|
+    t.integer "content_id", null: false
+    t.integer "genre_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["content_id"], name: "index_content_genres_on_content_id"
+    t.index ["genre_id"], name: "index_content_genres_on_genre_id"
+  end
 
   create_table "contents", force: :cascade do |t|
     t.string "item_type"
@@ -60,6 +69,8 @@ ActiveRecord::Schema.define(version: 2021_04_15_150833) do
     t.index ["content_id"], name: "index_seasons_on_content_id"
   end
 
+  add_foreign_key "content_genres", "contents"
+  add_foreign_key "content_genres", "genres"
   add_foreign_key "episodes", "seasons"
   add_foreign_key "seasons", "contents"
 end

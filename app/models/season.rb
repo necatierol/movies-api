@@ -3,6 +3,6 @@ class Season < ApplicationRecord
   belongs_to :content
   has_many :episodes, dependent: :destroy
 
-  # validation
+  # validations
   validates_presence_of :title
 end

@@ -2,6 +2,6 @@ class Episode < ApplicationRecord
   # model association
   belongs_to :season
 
-  # validation
+  # validations
   validates_presence_of :title
 end
