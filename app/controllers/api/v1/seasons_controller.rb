@@ -1,4 +1,4 @@
-class SeasonsController < ApplicationController
+class Api::V1::SeasonsController < ApplicationController
   before_action :set_content
   before_action :set_content_season, only: [:show, :update, :destroy]
 

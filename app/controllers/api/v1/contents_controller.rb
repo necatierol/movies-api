@@ -1,4 +1,4 @@
-class ContentsController < ApplicationController
+class Api::V1::ContentsController < ApplicationController
   before_action :set_content, only: [:show, :update, :destroy]
 
   # GET /contents

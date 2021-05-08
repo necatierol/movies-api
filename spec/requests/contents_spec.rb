@@ -1,14 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe 'Content API', type: :request do
+  let(:url) { '/api/v1/contents' }
   # initialize test data
   let!(:contents) { create_list(:content, 10) }
   let(:content_id) { contents.first.id }
 
   # Test suite for GET /contents
-  describe 'GET /contents' do
+  describe "GET /contents" do
     # make HTTP get request before each example
-    before { get '/contents' }
+    before { get url }
 
     it 'returns contents' do
       expect(json).not_to be_empty
@@ -22,7 +23,7 @@ RSpec.describe 'Content API', type: :request do
 
   # Test suite for GET /contents/:id
   describe 'GET /contents/:id' do
-    before { get "/contents/#{content_id}"}
+    before { get "#{url}/#{content_id}"}
 
     context 'when the record exists' do
       it 'returns the content' do
@@ -56,7 +57,7 @@ RSpec.describe 'Content API', type: :request do
     } }
 
     context 'when the request is valid' do
-      before { post '/contents', params: valid_attributes }
+      before { post url, params: valid_attributes }
 
       it 'creates a content' do
         expect(json['title']).to eq('John Wick')
@@ -68,7 +69,7 @@ RSpec.describe 'Content API', type: :request do
     end
 
     context 'when the request is invalid' do
-      before { post '/contents', params: { title: 'John Wick: Chapter 2' } }
+      before { post url, params: { title: 'John Wick: Chapter 2' } }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -86,7 +87,7 @@ RSpec.describe 'Content API', type: :request do
     let(:valid_attributes) { { title: 'Harry Potter' } }
 
     context 'when the record exists' do
-      before { put "/contents/#{content_id}", params: valid_attributes }
+      before { put "#{url}/#{content_id}", params: valid_attributes }
 
       it 'updates the record' do
         expect(response.body).to be_empty
@@ -100,7 +101,7 @@ RSpec.describe 'Content API', type: :request do
 
   # Test suite for DELETE '/contents/:id'
   describe 'DELETE /contents/:id' do
-    before { delete "/contents/#{content_id}"}
+    before { delete "#{url}/#{content_id}"}
 
     it 'returns status code 204' do
       expect(response).to have_http_status(204)
